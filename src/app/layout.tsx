@@ -34,8 +34,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${openSans.variable} antialiased`}>
-      <body className="min-h-screen flex flex-col">{children}</body>
+    <html
+      lang="en"
+      className={`${openSans.variable} antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-screen flex flex-col" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

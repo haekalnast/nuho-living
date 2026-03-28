@@ -27,6 +27,7 @@ export default function Navbar() {
             width={80}
             height={25}
             className="h-6 w-auto"
+            unoptimized
           />
           <Image
             src="/images/logo-living.svg"
@@ -34,6 +35,7 @@ export default function Navbar() {
             width={84}
             height={25}
             className="h-6 w-auto"
+            unoptimized
           />
         </Link>
 
@@ -43,10 +45,10 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-base text-black hover:text-primary transition-colors relative group"
+              className="text-base text-neutral-500 hover:text-neutral-500 active:text-neutral-500 relative group leading-6"
             >
               {link.label}
-              <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-black transition-all duration-300 group-hover:w-full" />
+              <span className="absolute left-0 -bottom-0.5 w-0 h-px bg-neutral-500 transition-all duration-300 group-hover:w-full group-active:w-full" />
             </Link>
           ))}
         </div>
@@ -85,7 +87,7 @@ export default function Navbar() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-base text-black py-2"
+              className="text-base text-neutral-500 py-2 leading-6"
               onClick={() => setMobileOpen(false)}
             >
               {link.label}

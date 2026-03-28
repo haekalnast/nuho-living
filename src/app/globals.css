@@ -2,6 +2,8 @@
 
 @theme inline {
   --color-primary: #8B817A;
+  --color-primary-100: #a39b96;
+  --color-primary-pressed: #706761;
   --color-primary-dark: #766d66;
   --color-neutral-100: #FFFFFF;
   --color-neutral-200: #F5F5F5;

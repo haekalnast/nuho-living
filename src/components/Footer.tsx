@@ -41,6 +41,7 @@ export default function Footer() {
               width={80}
               height={25}
               className="h-6 w-auto"
+              unoptimized
             />
             <Image
               src="/images/logo-living.svg"
@@ -48,6 +49,7 @@ export default function Footer() {
               width={84}
               height={25}
               className="h-6 w-auto"
+              unoptimized
             />
           </Link>
 
@@ -84,14 +86,16 @@ export default function Footer() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full border border-transparent hover:border-black/10 flex items-center justify-center transition-all"
+                className="relative flex size-10 shrink-0 items-center justify-center rounded-full p-2 transition-colors duration-200 hover:bg-primary-100"
                 aria-label={social.label}
               >
                 <Image
                   src={social.icon}
-                  alt={social.label}
-                  width={22}
-                  height={22}
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="size-6"
+                  unoptimized
                 />
               </a>
             ))}

@@ -62,6 +62,7 @@ export default function PropertiesSection() {
                       width={56}
                       height={25}
                       className="w-14 h-auto brightness-200 invert"
+                      unoptimized
                     />
                   </div>
 

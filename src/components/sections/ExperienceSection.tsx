@@ -63,7 +63,8 @@ export default function ExperienceSection() {
                     alt=""
                     width={32}
                     height={32}
-                    className="w-8 h-8 invert brightness-200"
+                    className="w-8 h-8"
+                    unoptimized
                   />
                 </div>
 
