@@ -241,7 +241,7 @@ export default function HeroSection() {
           key={`mobile-${contentIndex}`}
           aria-live="polite"
         >
-          <h1 className="text-2xl leading-8 tracking-[-1px] text-black font-normal">
+          <h1 className="text-[32px] leading-[40px] tracking-[-1px] text-black font-normal">
             {slide.title}
           </h1>
           <p className="text-base leading-6 text-secondary-500">
