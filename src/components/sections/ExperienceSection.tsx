@@ -66,7 +66,7 @@ export default function ExperienceSection() {
       <div className="experience-shell">
         <div className="experience-grid">
           <div className="experience-left flex flex-col items-start gap-6 text-left">
-            <h2 className="max-w-[600px] text-[40px] leading-[56px] font-normal tracking-[-1px] text-black">
+            <h2 className="max-w-[600px] text-[32px] leading-[40px] font-normal tracking-[-1px] text-black lg:text-[40px] lg:leading-[56px]">
               The NUHO Living Experience
             </h2>
             <p className="max-w-[600px] text-base leading-6 text-secondary-300">
@@ -101,7 +101,7 @@ export default function ExperienceSection() {
                     />
                   </div>
                   <div className="flex min-h-0 flex-1 flex-col gap-3">
-                    <h3 className="shrink-0 text-[32px] font-normal leading-[40px] tracking-[-1px] text-black">
+                    <h3 className="shrink-0 text-[24px] font-normal leading-8 tracking-[-1px] text-black lg:text-[32px] lg:leading-[40px]">
                       {exp.title}
                     </h3>
                     <p className="min-h-0 text-base leading-6 text-secondary-300 line-clamp-3 lg:line-clamp-2">

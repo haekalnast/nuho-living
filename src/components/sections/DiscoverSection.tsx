@@ -105,7 +105,7 @@ export default function DiscoverSection() {
   return (
     <section className="w-full bg-white px-4 py-10 sm:px-6 lg:px-10">
       <div className="flex flex-col gap-10 lg:gap-12">
-        <h2 className="text-[40px] leading-[56px] tracking-[-1px] text-black font-normal">
+        <h2 className="text-[32px] leading-[40px] tracking-[-1px] text-black font-normal lg:text-[40px] lg:leading-[56px]">
           Discover Bingin
         </h2>
 

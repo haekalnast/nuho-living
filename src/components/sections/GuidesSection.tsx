@@ -33,7 +33,7 @@ export default function GuidesSection() {
     >
       <div className="flex flex-col gap-10 lg:gap-12 items-end">
         <div className="w-full">
-          <h2 className="text-[40px] leading-[56px] tracking-[-1px] text-black font-normal">
+          <h2 className="text-[32px] leading-[40px] tracking-[-1px] text-black font-normal lg:text-[40px] lg:leading-[56px]">
             Guides
           </h2>
         </div>
