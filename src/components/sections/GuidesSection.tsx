@@ -39,10 +39,10 @@ export default function GuidesSection() {
           {guides.map((guide) => (
             <article
               key={guide.title}
-              className="flex flex-col rounded-[20px] overflow-hidden border border-neutral-200 hover:shadow-lg transition-shadow duration-300"
+              className="flex h-[574px] flex-col overflow-hidden rounded-[20px] border border-neutral-200 transition-shadow duration-300 hover:shadow-lg lg:h-auto"
             >
               {/* Image */}
-              <div className="relative h-[240px] lg:h-[320px] w-full">
+              <div className="relative h-[280px] w-full shrink-0 lg:h-[320px]">
                 <Image
                   src={guide.image}
                   alt={guide.title}
@@ -53,7 +53,7 @@ export default function GuidesSection() {
               </div>
 
               {/* Content */}
-              <div className="bg-neutral-300 flex flex-col gap-5 p-5 flex-1">
+              <div className="flex min-h-0 flex-1 flex-col gap-5 bg-neutral-300 p-5">
                 <div className="flex flex-col gap-4">
                   <p className="text-base leading-6 text-secondary-300">
                     {guide.date}

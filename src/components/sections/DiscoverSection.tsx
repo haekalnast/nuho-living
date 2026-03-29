@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const discoveries = [
@@ -29,6 +30,74 @@ const discoveries = [
   },
 ];
 
+function DiscoverCard({
+  title,
+  description,
+  image,
+}: (typeof discoveries)[number]) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = rootRef.current;
+    if (!el) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) {
+      setInView(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+      },
+      { threshold: 0.38, rootMargin: "0px 0px -12% 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={rootRef}
+      className="group relative h-[585px] cursor-pointer overflow-hidden rounded-[20px] lg:h-[720px]"
+    >
+      <Image
+        src={image}
+        alt={title}
+        fill
+        className={`object-cover transition-transform duration-500 ${
+          inView ? "max-lg:scale-105" : "max-lg:scale-100"
+        } lg:scale-100 lg:group-hover:scale-105`}
+        sizes="(max-width: 1024px) 100vw, 50vw"
+      />
+      <div
+        className={`absolute inset-0 transition-all duration-500 ${
+          inView ? "max-lg:bg-black/20" : "max-lg:bg-black/0"
+        } lg:bg-black/0 lg:group-hover:bg-black/20`}
+      />
+
+      <div
+        className={`absolute bottom-5 left-5 right-5 translate-y-[calc(100%-60px)] transition-transform duration-500 motion-reduce:translate-y-0 lg:group-hover:translate-y-0 ${
+          inView ? "max-lg:translate-y-0" : ""
+        }`}
+      >
+        <div className="flex flex-col gap-4 rounded-2xl bg-neutral-300 p-6 lg:p-8">
+          <h3 className="text-2xl leading-8 tracking-[-1px] text-black font-normal">
+            {title}
+          </h3>
+          <p
+            className={`text-base leading-6 text-secondary-300 transition-opacity delay-100 duration-500 motion-reduce:opacity-100 ${
+              inView ? "max-lg:opacity-100" : "max-lg:opacity-0"
+            } lg:opacity-0 lg:delay-100 lg:group-hover:opacity-100`}
+          >
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function DiscoverSection() {
   return (
     <section className="w-full bg-white px-6 lg:px-10 py-10">
@@ -37,34 +106,9 @@ export default function DiscoverSection() {
           Discover Bingin
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {discoveries.map((item) => (
-            <div
-              key={item.title}
-              className="group relative h-[400px] sm:h-[500px] lg:h-[720px] rounded-[20px] overflow-hidden cursor-pointer"
-            >
-              <Image
-                src={item.image}
-                alt={item.title}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes="(max-width: 640px) 100vw, 50vw"
-              />
-              {/* Dark overlay on hover */}
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
-
-              {/* Card that slides up on hover */}
-              <div className="absolute bottom-5 left-5 right-5 translate-y-[calc(100%-60px)] group-hover:translate-y-0 transition-transform duration-500">
-                <div className="bg-neutral-300 rounded-2xl p-6 lg:p-8 flex flex-col gap-4">
-                  <h3 className="text-2xl leading-8 tracking-[-1px] text-black font-normal">
-                    {item.title}
-                  </h3>
-                  <p className="text-base leading-6 text-secondary-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
-                    {item.description}
-                  </p>
-                </div>
-              </div>
-            </div>
+            <DiscoverCard key={item.title} {...item} />
           ))}
         </div>
       </div>

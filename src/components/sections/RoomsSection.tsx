@@ -31,13 +31,23 @@ const rooms = [
   },
 ];
 
+const controlShell =
+  "rounded-full border border-neutral-500/25 bg-white/85 backdrop-blur-sm shadow-sm";
+const iconStroke = "#000000";
+
 export default function RoomsSection() {
   const [active, setActive] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
 
   const handleRoomChange = (index: number) => {
     setActive(index);
-    setImageIndex(0);
+  };
+
+  const goPrevRoom = () => {
+    setActive((a) => (a - 1 + rooms.length) % rooms.length);
+  };
+
+  const goNextRoom = () => {
+    setActive((a) => (a + 1) % rooms.length);
   };
 
   return (
@@ -66,7 +76,7 @@ export default function RoomsSection() {
                 aria-controls="room-panel"
                 tabIndex={i === active ? 0 : -1}
                 onClick={() => handleRoomChange(i)}
-                className={`flex-1 min-w-[140px] p-4 rounded-[20px] text-center text-base lg:text-2xl font-normal transition-colors whitespace-nowrap ${
+                className={`shrink-0 rounded-[20px] px-5 py-4 text-center text-base font-normal whitespace-nowrap transition-colors lg:px-6 lg:text-2xl ${
                   i === active
                     ? "bg-primary text-white hover:bg-primary-dark"
                     : "bg-neutral-300 text-black hover:bg-secondary-100 hover:text-white"
@@ -82,7 +92,7 @@ export default function RoomsSection() {
             id="room-panel"
             role="tabpanel"
             aria-labelledby={`room-tab-${active}`}
-            className="relative w-full h-[400px] sm:h-[500px] lg:h-[660px] rounded-[20px] overflow-hidden"
+            className="relative h-[589px] w-full overflow-hidden rounded-[20px] lg:h-[660px]"
           >
             <Image
               src={rooms[active].image}
@@ -92,42 +102,34 @@ export default function RoomsSection() {
               sizes="100vw"
             />
 
-            {/* Overlay content */}
-            <div className="absolute inset-0 flex items-end justify-between p-5">
+            {/* Overlay: card + desktop controls (Hero-style shell on lg — Figma ~313-30050) */}
+            <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-5 lg:flex-row lg:items-end lg:justify-between">
               {/* Description card */}
-              <div className="bg-neutral-300 rounded-2xl p-6 lg:p-8 max-w-[435px] flex flex-col gap-4">
+              <div className="pointer-events-auto flex max-w-full flex-col gap-4 self-start rounded-2xl bg-neutral-300 p-6 lg:max-w-[435px] lg:self-auto lg:p-8">
                 <p className="text-base leading-6 text-secondary-300">
                   {rooms[active].description}
                 </p>
                 <Button
                   variant="secondary"
                   href="#rooms"
-                  className="w-fit self-start shrink-0"
+                  className="w-fit shrink-0 self-start"
                 >
                   View Room
                 </Button>
               </div>
 
-              {/* Carousel controls */}
-              <div className="hidden sm:flex items-center gap-2 self-end">
+              {/* Desktop: same grouped control strip as Hero */}
+              <div className="pointer-events-auto hidden shrink-0 items-center gap-2 self-end lg:flex">
                 <button
-                  onClick={() =>
-                    setImageIndex(
-                      (imageIndex - 1 + rooms.length) % rooms.length,
-                    )
-                  }
-                  className="w-11 h-11 rounded-full border border-white/40 backdrop-blur-md bg-white/20 flex items-center justify-center hover:bg-white/30 transition"
-                  aria-label="Previous"
+                  type="button"
+                  onClick={goPrevRoom}
+                  className={`flex h-11 w-11 items-center justify-center transition hover:bg-white ${controlShell}`}
+                  aria-label="Previous room"
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M15 18l-6-6 6-6"
-                      stroke="white"
+                      stroke={iconStroke}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -135,31 +137,35 @@ export default function RoomsSection() {
                   </svg>
                 </button>
 
-                <div className="flex items-center gap-4 px-4 py-3 rounded-full border border-white/40 backdrop-blur-md bg-white/20">
+                <div
+                  className={`flex items-center gap-4 px-4 py-3 ${controlShell}`}
+                >
                   {rooms.map((_, i) => (
-                    <span
+                    <button
+                      type="button"
                       key={i}
-                      className={`w-3 h-3 rounded-full transition ${i === active ? "bg-white" : "bg-white/40"}`}
+                      onClick={() => handleRoomChange(i)}
+                      className={`h-3 w-3 rounded-full transition-all ${
+                        i === active
+                          ? "bg-neutral-500"
+                          : "bg-neutral-500/30 hover:bg-neutral-500/45"
+                      }`}
+                      aria-label={`Show room ${i + 1}`}
+                      aria-current={i === active ? "true" : undefined}
                     />
                   ))}
                 </div>
 
                 <button
-                  onClick={() =>
-                    setImageIndex((imageIndex + 1) % rooms.length)
-                  }
-                  className="w-11 h-11 rounded-full border border-white/40 backdrop-blur-md bg-white/20 flex items-center justify-center hover:bg-white/30 transition"
-                  aria-label="Next"
+                  type="button"
+                  onClick={goNextRoom}
+                  className={`flex h-11 w-11 items-center justify-center transition hover:bg-white ${controlShell}`}
+                  aria-label="Next room"
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                     <path
                       d="M9 18l6-6-6-6"
-                      stroke="white"
+                      stroke={iconStroke}
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -167,6 +173,62 @@ export default function RoomsSection() {
                   </svg>
                 </button>
               </div>
+            </div>
+
+            {/* Mobile / tablet: Hero-style arrows at L/R, dots centered (max horizontal gap) */}
+            <div className="pointer-events-auto absolute inset-x-3 bottom-3 z-10 flex min-h-10 items-center justify-between lg:hidden">
+              <button
+                type="button"
+                onClick={goPrevRoom}
+                className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center transition hover:bg-white ${controlShell}`}
+                aria-label="Previous room"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M15 18l-6-6 6-6"
+                    stroke={iconStroke}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+
+              <div
+                className={`pointer-events-auto absolute left-1/2 top-1/2 z-[5] flex w-fit -translate-x-1/2 -translate-y-1/2 items-center gap-3 px-3 py-2.5 ${controlShell}`}
+              >
+                {rooms.map((_, i) => (
+                  <button
+                    type="button"
+                    key={i}
+                    onClick={() => handleRoomChange(i)}
+                    className={`h-2.5 w-2.5 shrink-0 rounded-full transition-all ${
+                      i === active
+                        ? "bg-neutral-500"
+                        : "bg-neutral-500/30"
+                    }`}
+                    aria-label={`Show room ${i + 1}`}
+                    aria-current={i === active ? "true" : undefined}
+                  />
+                ))}
+              </div>
+
+              <button
+                type="button"
+                onClick={goNextRoom}
+                className={`relative z-10 flex h-10 w-10 shrink-0 items-center justify-center transition hover:bg-white ${controlShell}`}
+                aria-label="Next room"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M9 18l6-6-6-6"
+                    stroke={iconStroke}
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
