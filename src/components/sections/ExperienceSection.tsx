@@ -1,12 +1,8 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Button from "../ui/Button";
-
-gsap.registerPlugin(ScrollTrigger);
 
 const experiences = [
   {
@@ -30,51 +26,40 @@ const experiences = [
 ];
 
 export default function ExperienceSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLElement | null)[]>([]);
 
-  useLayoutEffect(() => {
-    const section = sectionRef.current;
-    const list = listRef.current;
-    if (!section || !list) return;
+  useEffect(() => {
+    const cards = cardRefs.current.filter(
+      (el): el is HTMLElement => el != null,
+    );
+    if (cards.length === 0) return;
 
     const reduced = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
+    if (reduced) {
+      cards.forEach((el) => el.classList.add("experience-card-visible"));
+      return;
+    }
 
-    const ctx = gsap.context(() => {
-      if (reduced) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("experience-card-visible");
+          io.unobserve(entry.target);
+        });
+      },
+      { root: null, rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
+    );
 
-      const items = gsap.utils.toArray<HTMLElement>(
-        list.querySelectorAll(".card-item"),
-      );
-      if (items.length === 0) return;
-
-      gsap.from(items, {
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        stagger: 0.15,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: list,
-          start: "top 80%",
-        },
-      });
-    }, section);
-
-    const refresh = () => ScrollTrigger.refresh();
-    requestAnimationFrame(refresh);
-
-    return () => {
-      ctx.revert();
-    };
+    cards.forEach((el) => io.observe(el));
+    return () => io.disconnect();
   }, []);
 
   return (
     <section
       id="experience"
-      ref={sectionRef}
       className="experience"
       aria-label="The NUHO Living Experience"
     >
@@ -96,31 +81,35 @@ export default function ExperienceSection() {
           </div>
 
           <div className="experience-right">
-            <div className="experience-sticky">
-              <div ref={listRef} className="experience-card-list">
-                {experiences.map((exp) => (
-                  <article key={exp.title} className="card-item">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary p-2">
-                      <Image
-                        src={exp.icon}
-                        alt=""
-                        width={32}
-                        height={32}
-                        className="h-8 w-8"
-                        unoptimized
-                      />
-                    </div>
-                    <div className="flex min-h-0 flex-1 flex-col gap-3">
-                      <h3 className="shrink-0 text-[32px] font-normal leading-[40px] tracking-[-1px] text-black">
-                        {exp.title}
-                      </h3>
-                      <p className="min-h-0 text-base leading-6 text-secondary-300 line-clamp-3 lg:line-clamp-2">
-                        {exp.description}
-                      </p>
-                    </div>
-                  </article>
-                ))}
-              </div>
+            <div className="experience-card-list">
+              {experiences.map((exp, i) => (
+                <article
+                  key={exp.title}
+                  ref={(el) => {
+                    cardRefs.current[i] = el;
+                  }}
+                  className="card-item"
+                >
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary p-2">
+                    <Image
+                      src={exp.icon}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="h-8 w-8"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex min-h-0 flex-1 flex-col gap-3">
+                    <h3 className="shrink-0 text-[32px] font-normal leading-[40px] tracking-[-1px] text-black">
+                      {exp.title}
+                    </h3>
+                    <p className="min-h-0 text-base leading-6 text-secondary-300 line-clamp-3 lg:line-clamp-2">
+                      {exp.description}
+                    </p>
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
         </div>
