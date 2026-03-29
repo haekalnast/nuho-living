@@ -1,26 +1,38 @@
 import Image from "next/image";
 import Button from "../ui/Button";
 
+/**
+ * Property card logos — Figma:
+ * https://www.figma.com/design/u9MCVROvQ72BYVpzIsgGpT/NUHO-Living-Landing-Page--V03.03.26-?node-id=183-5707
+ * NUHO Living lockup (card chip): node 183-5722 → /images/logo-nuho-living-card.svg
+ */
 const properties = [
   {
     name: "Desa Seminyak",
     description:
       "A boutique stay located in the heart of Seminyak, offering a vibrant atmosphere close to Bali's dining, shopping, and beach scene.",
     image: "/images/property-desa.jpg",
-    logo: "/images/logo-desa-seminyak.svg",
     logoBg: "bg-[#2d332e]",
     cta: "Visit Website",
     href: "#",
+    logoSrc: "/images/logo-desa-seminyak.svg",
+    logoAlt: "Desa Seminyak",
+    logoClassName:
+      "h-8 w-auto max-w-[72px] object-contain object-center",
   },
   {
     name: "NUHO Living",
     description:
       "A boutique stay in Bingin, designed for a calm tropical living experience.",
     image: "/images/property-nuho.jpg",
-    logo: "/images/logo-nuho-living.svg",
     logoBg: "bg-primary",
     cta: "Book Your Stay",
     href: "#contact",
+    /** Full lockup from Figma (white fills for primary circle) */
+    logoSrc: "/images/logo-nuho-living-card.svg",
+    logoAlt: "NUHO Living",
+    logoClassName:
+      "h-[22px] w-auto max-w-[76px] sm:h-6 lg:h-7 object-contain object-center",
   },
 ];
 
@@ -54,14 +66,14 @@ export default function PropertiesSection() {
                 <div className="flex gap-5 items-center">
                   {/* Logo */}
                   <div
-                    className={`w-[80px] h-[80px] lg:w-[100px] lg:h-[100px] rounded-full ${property.logoBg} flex items-center justify-center shrink-0 overflow-hidden`}
+                    className={`w-[80px] h-[80px] lg:w-[100px] lg:h-[100px] rounded-full ${property.logoBg} flex items-center justify-center shrink-0 overflow-hidden px-2`}
                   >
                     <Image
-                      src={property.logo}
-                      alt={`${property.name} logo`}
-                      width={56}
-                      height={25}
-                      className="w-14 h-auto brightness-200 invert"
+                      src={property.logoSrc}
+                      alt={property.logoAlt}
+                      width={80}
+                      height={32}
+                      className={property.logoClassName}
                       unoptimized
                     />
                   </div>
