@@ -41,6 +41,7 @@ export default function RoomsSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const touchStartX = useRef<number | null>(null);
+  const skipInitialTabScrollIntoView = useRef(true);
 
   const goPrevRoom = useCallback(() => {
     setActiveIndex((a) => (a - 1 + rooms.length) % rooms.length);
@@ -51,6 +52,10 @@ export default function RoomsSection() {
   }, []);
 
   useEffect(() => {
+    if (skipInitialTabScrollIntoView.current) {
+      skipInitialTabScrollIntoView.current = false;
+      return;
+    }
     const el = tabRefs.current[activeIndex];
     if (!el) return;
     const reduced = window.matchMedia(
