@@ -103,7 +103,7 @@ export default function RoomsSection() {
 
         <div className="flex flex-col gap-6">
           <div
-            className="-mx-2 flex flex-nowrap gap-4 overflow-x-auto whitespace-nowrap px-2 pb-2 lg:gap-6"
+            className="-mx-2 flex flex-nowrap gap-4 overflow-x-auto whitespace-nowrap px-2 pb-2 lg:gap-6 xl:mx-0 xl:overflow-visible xl:px-0"
             role="tablist"
             aria-label="Room types"
           >
@@ -120,7 +120,7 @@ export default function RoomsSection() {
                 aria-controls="room-panel"
                 tabIndex={i === activeIndex ? 0 : -1}
                 onClick={() => setActiveIndex(i)}
-                className={`flex min-h-[52px] w-[248px] shrink-0 items-center justify-center rounded-[20px] px-3 py-3 text-center text-2xl font-normal leading-8 tracking-[-1px] whitespace-normal transition-colors lg:min-h-[56px] lg:w-[322px] lg:px-4 lg:py-4 ${
+                className={`flex min-h-[52px] w-[248px] shrink-0 items-center justify-center rounded-[20px] px-3 py-3 text-center text-2xl font-normal leading-8 tracking-[-1px] whitespace-normal transition-colors lg:min-h-[56px] lg:w-[322px] lg:px-4 lg:py-4 xl:min-w-0 xl:flex-1 xl:shrink xl:w-auto ${
                   i === activeIndex
                     ? "bg-primary text-white hover:bg-primary-dark"
                     : "bg-neutral-300 text-black hover:bg-secondary-100 hover:text-white"
